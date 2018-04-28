@@ -10,8 +10,6 @@ class BarLoadingScreen extends StatefulWidget {
 class _BarLoadingScreenState extends State<BarLoadingScreen>
     with TickerProviderStateMixin {
   AnimationController _forwardController;
-  AnimationController _reverseController;
-  bool isMovingForward = true;
 
   @override
   initState() {
@@ -19,25 +17,10 @@ class _BarLoadingScreenState extends State<BarLoadingScreen>
     _forwardController = new AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
-    )..addStatusListener((status) => handleAnimatorComplete(status));
-    _reverseController = new AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    )..addStatusListener((status) => handleReverseAnimatorComplete(status));
+    );
     _playAnimation();
   }
 
-  handleAnimatorComplete(AnimationStatus status) {
-//    if (status == AnimationStatus.completed) {
-//      setState(() => isMovingForward = false);
-//    }
-  }
-
-  handleReverseAnimatorComplete(AnimationStatus status) {
-//    if (status == AnimationStatus.completed) {
-//      setState(() => isMovingForward = true);
-//    }
-  }
 
   Future<Null> _playAnimation() async {
     try {
@@ -50,47 +33,23 @@ class _BarLoadingScreenState extends State<BarLoadingScreen>
     }
   }
 
-//  Future<Null> _playAnimation() async {
-//    try {
-//      if (isMovingForward) {
-//        await _forwardController.forward();
-//      } else {
-//        await _reverseController.forward();
-//      }
-//    } on TickerCanceled {
-//      // the animation got canceled, probably because we were disposed
-//      print(this.toString());
-//    }
-//  }
 
   @override
   dispose() {
     _forwardController.dispose();
-    _reverseController.dispose();
     super.dispose();
   }
 
   Widget get forwardStaggeredAnimation {
     return new StaggeredAnimation(
-      isMovingForward: true,
       controller: _forwardController,
-    );
-  }
-
-  Widget get reversedStaggeredAnimation {
-    return new StaggeredAnimation(
-      isMovingForward: false,
-      controller: _reverseController,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _playAnimation();
     return new Container(
-      child: isMovingForward
-          ? forwardStaggeredAnimation
-          : reversedStaggeredAnimation,
+      child: forwardStaggeredAnimation
     );
   }
 }

@@ -74,13 +74,8 @@ class StaggeredAnimation extends StatelessWidget {
   final Animation<double> barTwoRotation;
   final Animation<double> barThreeRotation;
   final Animation<double> barFourRotation;
-  final Animation<double> barOneRotationReverse;
-  final Animation<double> barTwoRotationReverse;
-  final Animation<double> barThreeRotationReverse;
-  final Animation<double> barFourRotationReverse;
-  final bool isMovingForward;
 
-  StaggeredAnimation({this.controller, this.isMovingForward}) :
+  StaggeredAnimation({this.controller}) :
         barOneRotation = new Tween<double>(
           begin: 0.0,
           end: 1.0,
@@ -132,64 +127,12 @@ class StaggeredAnimation extends StatelessWidget {
               curve: Curves.linear,
             ),
           ),
-        ),
-        barFourRotationReverse = new Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.0,
-              0.25,
-              curve: Curves.linear,
-            ),
-          ),
-        ),
-        barThreeRotationReverse = new Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.25,
-              0.5,
-              curve: Curves.linear,
-            ),
-          ),
-        ),
-        barTwoRotationReverse = new Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.5,
-              0.75,
-              curve: Curves.linear,
-            ),
-          ),
-        ),
-        barOneRotationReverse = new Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.75,
-              1.0,
-              curve: Curves.linear,
-            ),
-          ),
         );
 
-  Widget get barOne => new Bar();
-  Widget get barTwo => new Bar();
-  Widget get barThree => new Bar();
-  Widget get barFour => new Bar();
+  Widget barOne = new Bar();
+  Widget barTwo = new Bar();
+  Widget barThree = new Bar();
+  Widget barFour = new Bar();
 
   Widget buildAnimation(BuildContext context, Widget child) {
     return Center(
@@ -197,25 +140,25 @@ class StaggeredAnimation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           new PivotTransition(
-            turns: isMovingForward ? barOneRotation : barOneRotationReverse,
+            turns: barOneRotation,
             alignment: FractionalOffset.centerRight,
             name: 'barOne',
             child: barOne,
           ),
           new PivotTransition(
-            turns: isMovingForward ? barTwoRotation : barTwoRotationReverse,
+            turns: barTwoRotation,
             alignment: FractionalOffset.centerRight,
             name: 'barTwo',
             child: barTwo,
           ),
           new PivotTransition(
-            turns: isMovingForward ? barThreeRotation : barThreeRotationReverse,
+            turns: barThreeRotation,
             alignment: FractionalOffset.centerRight,
             name: 'barThree',
             child: barThree,
           ),
           new PivotTransition(
-            turns: isMovingForward ? barFourRotation : barFourRotationReverse,
+            turns: barFourRotation,
             alignment: FractionalOffset.centerRight,
             isHalfPivot: false,
             name: 'barFour',
