@@ -21,7 +21,7 @@ class _BarLoadingScreenState extends State<BarLoadingScreen>
       vsync: this,
     )..addStatusListener((status) => handleAnimatorComplete(status));
     _reverseController = new AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..addStatusListener((status) => handleReverseAnimatorComplete(status));
     _playAnimation();
@@ -49,6 +49,19 @@ class _BarLoadingScreenState extends State<BarLoadingScreen>
       print(this.toString());
     }
   }
+
+//  Future<Null> _playAnimation() async {
+//    try {
+//      if (isMovingForward) {
+//        await _forwardController.forward();
+//      } else {
+//        await _reverseController.forward();
+//      }
+//    } on TickerCanceled {
+//      // the animation got canceled, probably because we were disposed
+//      print(this.toString());
+//    }
+//  }
 
   @override
   dispose() {
